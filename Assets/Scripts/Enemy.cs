@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,9 +21,15 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private EnemyData data;
 
+    // public event EventHandler PingDead;
+
     // Start is called before the first frame update
+
+    public EnemySpawner spawner;
+
     void Start()
     {
+        spawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
         rb = this.GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player").GetComponent<Transform>();
         healthScript = GameObject.Find("GameManager").GetComponent<Health>();
@@ -43,6 +50,8 @@ public class Enemy : MonoBehaviour
 
         if (healthAmount <= 0)
         {
+            // PingDead?.Invoke(this, EventArgs.Empty);
+            spawner.enemyCount--;
             Loot();
             Destroy(gameObject);
         }
@@ -76,7 +85,7 @@ public class Enemy : MonoBehaviour
     }
     private void Loot()
     {
-        if (Random.value <= dropChance)
+        if (UnityEngine.Random.value <= dropChance)
         {
             hp = Instantiate(hpotion, transform.position, Quaternion.identity);
         }
