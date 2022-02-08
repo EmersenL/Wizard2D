@@ -16,10 +16,19 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private float bigEnemy1Interval = 10f;
 
-    private float count = 30;
+    private float count = 5;
     public float enemyCount = 0;
 
     public GameObject mNum;
+
+    private float round = 1;
+
+    public GameObject roundNum;
+
+    //[SerializeField]
+    //public GameObject countDownTimerPrefab;
+
+    //private bool trip = false;
 
     // public Enemy enemyClass;
 
@@ -32,12 +41,19 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         // enemyClass.PingDead += DeathCount;
+        roundNum = GameObject.Find("Round");
 
         StartCoroutine(spawnEnemy(enemy1Interval, enemy1Prefab));
         StartCoroutine(spawnEnemy(bigEnemy1Interval, bigEnemy1Prefab));
 
         // now enemyCount has the number of monsters spawned
         mNum.GetComponent<Text>().text = "Monsters Left: " + enemyCount;
+
+        // display round #
+        roundNum.GetComponent<Text>().text = "Round " + round;
+
+        //increase round #
+        round++;
     }
 
     private void Update()
