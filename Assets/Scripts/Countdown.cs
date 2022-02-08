@@ -6,12 +6,16 @@ using UnityEngine.UI;
 public class Countdown : MonoBehaviour
 {
     public GameObject textDisplay;
-    public int secondsLeft = 30;
+    int secondsLeft = 5;
     public bool takingAway = false;
+
+    public EnemySpawner enemySpawner;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Debug.Log("wut " + secondsLeft);
+        enemySpawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
         textDisplay.GetComponent<Text>().text = "00:" + secondsLeft;
     }
 
@@ -21,6 +25,12 @@ public class Countdown : MonoBehaviour
         if (takingAway == false && secondsLeft > 0)
         {
             StartCoroutine(TimerTake());
+            // Debug.Log("seconds left: " + secondsLeft);
+        }
+        else if (secondsLeft <= 0)
+        {
+            enemySpawner.trip = false;
+            Destroy(gameObject);
         }
     }
 

@@ -16,6 +16,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private float bigEnemy1Interval = 10f;
 
+    public StartCount startCount;
+
     private float count = 5;
     public float enemyCount = 0;
 
@@ -24,6 +26,8 @@ public class EnemySpawner : MonoBehaviour
     private float round = 1;
 
     public GameObject roundNum;
+    public bool trip = true;
+    // private bool timerTrip = false;
 
     //[SerializeField]
     //public GameObject countDownTimerPrefab;
@@ -40,6 +44,8 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        startCount = GameObject.Find("Canvas").GetComponent<StartCount>();
+
         // enemyClass.PingDead += DeathCount;
         roundNum = GameObject.Find("Round");
 
@@ -58,7 +64,29 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
+        if (trip == false)
+        {
+            Debug.Log("we're in boi");
+            StartCoroutine(spawnEnemy(enemy1Interval, enemy1Prefab));
+            StartCoroutine(spawnEnemy(bigEnemy1Interval, bigEnemy1Prefab));
+
+            // now enemyCount has the number of monsters spawned
+            mNum.GetComponent<Text>().text = "Monsters Left: " + enemyCount;
+
+            // display round #
+            roundNum.GetComponent<Text>().text = "Round " + round;
+
+            //increase round #
+            round++;
+            startCount.trip = false;
+            trip = true;
+        }
         mNum.GetComponent<Text>().text = "Monsters Left: " + enemyCount;
+        //if (enemyCount == 0 && timerTrip == false)
+        //{
+        //    startCount.trip = false;
+        //    timerTrip = true;
+        //}
     }
 
     private IEnumerator spawnEnemy(float interval, GameObject enemy)
