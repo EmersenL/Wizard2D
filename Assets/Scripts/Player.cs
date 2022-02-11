@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,11 +17,14 @@ public class Player : MonoBehaviour
     // imported GameManager
     public Health HealthScript;
 
+    public bool stopMoving = false;
+    //public Enemy Enemy;
+
     // Start is called before the first frame update
     void Start()
     {
+        //Enemy.OnPlayerDamaged += BashPlayer;
         speed = 5f;
-
     }
 
     // Update is called once per frame
@@ -33,7 +37,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if (stopMoving == false) Move();
 
         Vector2 lookDir = mousePos - rb.position;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
@@ -64,6 +68,11 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector2(moveDirection.x * speed, moveDirection.y * speed);
     }
 
+    //void BashPlayer(object sender, EventArgs e)
+    //{
+    //    Debug.Log("yoy");
+    //    //this.rigidBody2D.AddForce(new Vector2(3, 0));
+    //}
     /*
     private void OnCollisionEnter2D(Collision2D collision)
     {

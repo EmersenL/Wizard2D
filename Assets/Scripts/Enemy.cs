@@ -13,10 +13,14 @@ public class Enemy : MonoBehaviour
     private Vector2 movement;
     public float healthAmount = 100;
 
+    public Player playerScript;
+
     [SerializeField]
     public GameObject hpotion;
     private float dropChance = .10f;
     public GameObject hp;
+
+    //public event EventHandler OnPlayerDamaged;
 
     [SerializeField]
     private EnemyData data;
@@ -29,6 +33,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        playerScript = GameObject.Find("Player").GetComponent<Player>();
         spawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
         rb = this.GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player").GetComponent<Transform>();
@@ -100,6 +105,34 @@ public class Enemy : MonoBehaviour
         else if (collision.gameObject.tag == "Player")
         {
             healthScript.TakeDamage(damage);
+
+
+            Rigidbody2D rb = collision.collider.GetComponent<Rigidbody2D>();
+            Vector2 direction = collision.transform.position - transform.position;
+
+            StartCoroutine(WaitALittle(direction, rb));
+
+            // Debug.Log(playerScript.stopMoving);
+
+            //OnPlayerDamaged?.Invoke(this, EventArgs.Empty);
+            //playerScript.stopMoving = true;
+            //for (int i = 0; i < 100; i++)
+            //{
+            //player.GetComponent<Rigidbody2D>().AddForce(movement * 50);
+            //}
         }
+    }
+
+    IEnumerator WaitALittle(Vector2 direction, Rigidbody2D rb)
+    {
+        playerScript.stopMoving = true;
+        for (int i = 0; i < 6; i++)
+        {
+            yield return new WaitForSeconds(0.0001f);
+            rb.AddForce(direction.normalized * 1.5f, ForceMode2D.Impulse);
+        }
+        yield return new WaitForSeconds(0.2f);
+        playerScript.stopMoving = false;
+        // Debug.Log(playerScript.stopMoving);
     }
 }

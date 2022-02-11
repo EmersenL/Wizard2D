@@ -427,9 +427,12 @@ MonoBehaviour:
   bigEnemy1Prefab: {fileID: 9167093275785702265, guid: de699538805996f48ac26cd9a6d8ac93, type: 3}
   enemy1Interval: 3.5
   bigEnemy1Interval: 10
+  startCount: {fileID: 0}
   enemyCount: 0
   mNum: {fileID: 1966626209}
   roundNum: {fileID: 0}
+  trip: 1
+  camera1: {fileID: 0}
 --- !u!4 &612259358
 Transform:
   m_ObjectHideFlags: 0
@@ -608,6 +611,7 @@ MonoBehaviour:
   screenBounds: {fileID: 266086549}
   mousePos: {x: 0, y: 0}
   HealthScript: {fileID: 978218978}
+  stopMoving: 0
 --- !u!212 &887078415
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -886,6 +890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 095d0aa9e46abc54bae93f9c0f270fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trip: 0
   enemySpawner: {fileID: 0}
   countDownTimerPrefab: {fileID: 2174021133221873560, guid: cba83964466cc5546a768b87bd95f523, type: 3}
 --- !u!1 &1540724831

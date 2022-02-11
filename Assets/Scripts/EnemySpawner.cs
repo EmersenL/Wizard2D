@@ -27,6 +27,8 @@ public class EnemySpawner : MonoBehaviour
 
     public GameObject roundNum;
     public bool trip = true;
+
+    public GameObject camera1;
     // private bool timerTrip = false;
 
     //[SerializeField]
@@ -44,6 +46,7 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        camera1 = GameObject.Find("Main Camera");
         startCount = GameObject.Find("Canvas").GetComponent<StartCount>();
 
         // enemyClass.PingDead += DeathCount;
@@ -66,7 +69,6 @@ public class EnemySpawner : MonoBehaviour
     {
         if (trip == false)
         {
-            Debug.Log("we're in boi");
             StartCoroutine(spawnEnemy(enemy1Interval, enemy1Prefab));
             StartCoroutine(spawnEnemy(bigEnemy1Interval, bigEnemy1Prefab));
 
@@ -80,6 +82,11 @@ public class EnemySpawner : MonoBehaviour
             round++;
             startCount.trip = false;
             trip = true;
+
+            // increase difficulty
+            IncreaseDifficulty(ref enemy1Interval, ref bigEnemy1Interval, ref count);
+            //Debug.Log("en1 int: " + enemy1Interval + "\n" + "bigen1 int: " + bigEnemy1Interval + "\n");
+            //Debug.Log("count: " + count + "\n");
         }
         mNum.GetComponent<Text>().text = "Monsters Left: " + enemyCount;
         //if (enemyCount == 0 && timerTrip == false)
@@ -91,20 +98,40 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator spawnEnemy(float interval, GameObject enemy)
     {
+        // makes it so that different types of enemies with different intervals finish spawning at the same time
         int enemyNum = (int)Mathf.Floor(count / interval);
         enemyCount += enemyNum;
 
         for (int i = 0; i < enemyNum; i++)
         {
             yield return new WaitForSeconds(interval);
-            GameObject newEnemy = Instantiate(enemy, new Vector3(UnityEngine.Random.Range(-5f, 5), UnityEngine.Random.Range(-6f, 6f), 0), Quaternion.identity);
+            GameObject newEnemy = Instantiate(enemy, new Vector3(GenerateSpawnLocation().x, GenerateSpawnLocation().y), Quaternion.identity);
             // StartCoroutine(spawnEnemy(interval, enemy));
         }
     }
+
+    Vector2 GenerateSpawnLocation()
+    {
+        int radius = 10;
+        Vector2 spawnPos = UnityEngine.Random.insideUnitCircle.normalized * radius;
+        return spawnPos;
+    }
+
+    //Vector3 SpawnPointGenerator()
+    //{
+    //    camera1.
+    //}
 
     //void DeathCount(object sender, EventArgs e)
     //{
     //    enemyCount -= 1;
     //    mNum.GetComponent<Text>().text = "Monsters Left: " + enemyCount;
     //}
+
+    void IncreaseDifficulty(ref float enemy1Interval, ref float bigEnemy1Interval, ref float count)
+    {
+        count += 0.8f * count;
+        enemy1Interval -= 0.2f * enemy1Interval;
+        bigEnemy1Interval -= 0.2f * bigEnemy1Interval;
+    }
 }

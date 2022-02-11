@@ -53,6 +53,11 @@ public class ScreenBounds : MonoBehaviour
 
     }
 
+    //public Vector2 ReturnCameraXPosition()
+    //{
+    //    return boxCollider.bounds.
+    //}
+
     public Vector2 CalculateWrappedPosition(Vector2 worldPosition)
     {
         bool xBoundResult =

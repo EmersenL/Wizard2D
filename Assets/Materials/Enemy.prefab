@@ -128,8 +128,11 @@ MonoBehaviour:
   moveSpeed: 5
   damage: 10
   healthAmount: 100
+  playerScript: {fileID: 0}
   hpotion: {fileID: 1855513270379751954, guid: 5041bf684da72d946812e63e19f1ddf5, type: 3}
+  hp: {fileID: 0}
   data: {fileID: 11400000, guid: 79fe4be27cc12bc4ea9a606db361de84, type: 2}
+  spawner: {fileID: 0}
 --- !u!50 &336081403608354883
 Rigidbody2D:
   serializedVersion: 4
